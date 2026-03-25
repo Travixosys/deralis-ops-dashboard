@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DesktopSidebar } from "@/components/sidebar";
+import { Header } from "@/components/header";
+import { PageTransition } from "@/components/page-transition";
 
 export const metadata: Metadata = {
   title: "Ops Dashboard — Deralis Digital",
@@ -13,7 +16,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="h-full font-sans">
+        <div className="flex h-full">
+          <DesktopSidebar />
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <Header />
+            <main className="flex-1 overflow-auto p-4 md:p-6">
+              <PageTransition>{children}</PageTransition>
+            </main>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
