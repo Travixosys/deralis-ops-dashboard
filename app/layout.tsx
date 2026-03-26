@@ -4,6 +4,7 @@ import { DesktopSidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 import { PageTransition } from "@/components/page-transition";
 import { DemoProvider } from "@/lib/demo-context";
+import { DemoControls } from "@/components/demo-controls";
 
 export const metadata: Metadata = {
   title: "Ops Dashboard — Deralis Digital",
@@ -28,6 +29,7 @@ export default function RootLayout({
               </main>
             </div>
           </div>
+          <DemoControls />
         </DemoProvider>
       </body>
     </html>
