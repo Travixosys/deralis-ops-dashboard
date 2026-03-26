@@ -18,7 +18,7 @@ export function DemoControls() {
         <Card className="w-64 shadow-lg">
           <CardContent className="p-4">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-semibold">Demo Controls</p>
+              <p className="text-sm font-semibold">Actions</p>
               <Button
                 variant="ghost"
                 size="icon"
