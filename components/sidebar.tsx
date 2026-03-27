@@ -19,14 +19,14 @@ export function SidebarContent() {
     <div className="flex h-full flex-col">
       {/* Brand */}
       <div className="flex items-center gap-2 px-4 py-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+        <div className="flex h-8 w-8 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
           <Shield className="h-4 w-4" />
         </div>
         <div>
           <p className="text-sm font-semibold text-sidebar-foreground">
             Deralis Digital
           </p>
-          <p className="text-xs text-muted-foreground">Ops Dashboard</p>
+          <p className="text-xs text-[#94a3b8]">Ops Dashboard</p>
         </div>
       </div>
 
@@ -42,10 +42,10 @@ export function SidebarContent() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded px-3 py-2 text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  ? "border-l-[3px] border-l-[#22d3ee] bg-[rgba(255,255,255,0.08)] text-white"
+                  : "text-[#94a3b8] hover:text-white"
               )}
             >
               <item.icon className="h-4 w-4" />
@@ -59,10 +59,10 @@ export function SidebarContent() {
 
       {/* Footer */}
       <div className="px-4 py-4">
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-[#94a3b8]">
           &copy; {new Date().getFullYear()} Deralis Digital
         </p>
-        <p className="text-xs text-muted-foreground">Portfolio Demo</p>
+        <p className="text-xs text-[#94a3b8]">Portfolio Demo</p>
       </div>
     </div>
   );

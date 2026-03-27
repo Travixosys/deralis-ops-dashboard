@@ -65,7 +65,7 @@ export function JobsTable() {
   ];
 
   return (
-    <div className="rounded-lg border">
+    <div className="rounded border">
       <Table>
         <TableHeader>
           <TableRow>
