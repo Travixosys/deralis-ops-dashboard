@@ -69,7 +69,7 @@ export function KpiCards() {
           key={card.label}
           className={cn(
             "transition-shadow",
-            card.pulse && "animate-pulse-red"
+            card.pulse && "animate-pulse-red border-l-[3px] border-l-[#dc2626]"
           )}
           // Re-trigger animation when pulseTrigger changes
           data-pulse={pulseTrigger}
@@ -80,7 +80,7 @@ export function KpiCards() {
                 <p className="text-sm text-muted-foreground">{card.label}</p>
                 <p className="mt-1 text-2xl font-bold">{card.value}</p>
               </div>
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", card.iconBg)}>
+              <div className={cn("flex h-10 w-10 items-center justify-center rounded", card.iconBg)}>
                 <card.icon className="h-5 w-5" />
               </div>
             </div>
