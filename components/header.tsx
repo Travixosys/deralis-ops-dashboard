@@ -49,7 +49,7 @@ export function Header() {
   const title = pageTitles[pathname] ?? "Dashboard";
 
   return (
-    <header className="flex h-14 items-center justify-between border-b px-4 md:px-6">
+    <header className="flex h-14 items-center justify-between border-b border-b-[#e2e8f0] bg-white px-4 md:px-6">
       <div className="flex items-center gap-3">
         {/* Mobile menu */}
         <Sheet open={open} onOpenChange={setOpen}>

@@ -106,7 +106,7 @@ export function JobsList() {
         onPriorityChange={setPriorityFilter}
       />
 
-      <div className="rounded-lg border">
+      <div className="rounded border">
         <Table>
           <TableHeader>
             <TableRow>
