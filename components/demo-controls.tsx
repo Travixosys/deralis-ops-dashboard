@@ -4,81 +4,49 @@ import { useState } from "react";
 import { Settings2, Plus, AlertTriangle, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useDemo } from "@/lib/demo-context";
+import { openJob, receiveRequest, resetDemo, simulateIncident } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export function DemoControls() {
   const [open, setOpen] = useState(false);
-  const { simulateNewJob, simulateIssue, resetData } = useDemo();
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-      {/* Panel */}
       {open && (
         <Card className="w-64 shadow-lg">
           <CardContent className="p-4">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-semibold">Actions</p>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6"
-                onClick={() => setOpen(false)}
-              >
+              <p className="text-sm font-semibold">Actions de démonstration</p>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setOpen(false)}>
                 <X className="h-3.5 w-3.5" />
+                <span className="sr-only">Fermer</span>
               </Button>
             </div>
             <div className="space-y-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start gap-2"
-                onClick={() => {
-                  simulateNewJob();
-                }}
-              >
+              <Button variant="outline" size="sm" className="w-full justify-start gap-2" onClick={() => openJob(receiveRequest())}>
                 <Plus className="h-4 w-4 text-blue-500" />
-                Simulate New Job
+                Recevoir une demande client
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start gap-2"
-                onClick={() => {
-                  simulateIssue();
-                }}
-              >
+              <Button variant="outline" size="sm" className="w-full justify-start gap-2" onClick={() => simulateIncident()}>
                 <AlertTriangle className="h-4 w-4 text-red-500" />
-                Simulate Issue
+                Simuler un incident
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-start gap-2"
-                onClick={() => {
-                  resetData();
-                }}
-              >
+              <Button variant="outline" size="sm" className="w-full justify-start gap-2" onClick={() => resetDemo()}>
                 <RotateCcw className="h-4 w-4 text-muted-foreground" />
-                Reset Data
+                Réinitialiser les données
               </Button>
             </div>
           </CardContent>
         </Card>
       )}
-
-      {/* Floating trigger button */}
       <Button
         size="icon"
         variant="secondary"
-        className={cn(
-          "h-10 w-10 rounded-full shadow-lg transition-transform hover:scale-105",
-          open && "rotate-45"
-        )}
+        className={cn("h-10 w-10 rounded-full shadow-lg transition-transform hover:scale-105", open && "rotate-45")}
         onClick={() => setOpen(!open)}
       >
         <Settings2 className="h-4 w-4" />
-        <span className="sr-only">Demo Controls</span>
+        <span className="sr-only">Actions de démonstration</span>
       </Button>
     </div>
   );

@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DesktopSidebar } from "@/components/sidebar";
-import { Header } from "@/components/header";
-import { PageTransition } from "@/components/page-transition";
-import { DemoProvider } from "@/lib/demo-context";
-import { DemoControls } from "@/components/demo-controls";
 
 export const metadata: Metadata = {
-  title: "Ops Dashboard — Deralis Digital",
-  description: "Operations dashboard demo by Deralis Digital",
+  title: "Deralis Ops · Tableau d'exploitation pour la sécurité privée",
+  description:
+    "Démonstration interactive : missions, agents et incidents d'une société de sécurité privée sur un seul écran. Entreprises et données fictives.",
 };
 
 export default function RootLayout({
@@ -17,21 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="h-full font-sans">
-        <DemoProvider>
-          <div className="flex h-full">
-            <DesktopSidebar />
-            <div className="flex flex-1 flex-col overflow-hidden">
-              <Header />
-              <main className="flex-1 overflow-auto p-4 md:p-6">
-                <PageTransition>{children}</PageTransition>
-              </main>
-            </div>
-          </div>
-          <DemoControls />
-        </DemoProvider>
-      </body>
+    <html lang="fr" className="h-full antialiased">
+      <body className="h-full font-sans">{children}</body>
     </html>
   );
 }

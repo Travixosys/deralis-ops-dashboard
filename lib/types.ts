@@ -1,46 +1,37 @@
-// ── Union literal types ──────────────────────────────────
+// Internal codes stay in English; every label shown to the visitor comes from lib/labels.ts.
 
-export type JobStatus = "Pending" | "In Progress" | "Completed" | "Issue Flagged";
+export type JobStatus = "pending" | "in_progress" | "completed" | "incident";
 
-export type JobType =
-  | "Site Patrol"
-  | "Access Control"
-  | "Alarm Response"
-  | "Escort Duty"
-  | "Post Assignment";
+export type JobType = "patrol" | "access" | "alarm" | "escort" | "post";
 
-export type Priority = "Low" | "Medium" | "High" | "Critical";
+export type Priority = "low" | "medium" | "high" | "critical";
 
-export type AvailabilityStatus = "On Duty" | "Off Duty" | "On Break";
-
-// ── Interfaces ───────────────────────────────────────────
+export type Availability = "on_duty" | "on_break" | "off_duty";
 
 export interface Client {
   id: string;
   name: string;
+  /** Three-letter site code, stamped on the key tag. */
+  short: string;
   industry: string;
-  contactEmail: string;
-  activeJobCount: number;
 }
 
 export interface TeamMember {
   id: string;
   name: string;
   role: string;
-  avatarInitials: string;
-  availability: AvailabilityStatus;
-  assignedJobCount: number;
+  initials: string;
+  availability: Availability;
   phone: string;
 }
 
 export interface Job {
   id: string;
-  referenceNumber: string;
+  reference: string;
   clientId: string;
-  client: string;
   type: JobType;
+  /** Empty string while a client request has not been assigned yet. */
   assigneeId: string;
-  assignee: string;
   status: JobStatus;
   location: string;
   scheduledStart: string;
@@ -48,25 +39,34 @@ export interface Job {
   priority: Priority;
   notes: string;
   createdAt: string;
+  /** Requests created from the demo actions, not part of the seed. */
+  simulated?: boolean;
+}
+
+export type ActivityType =
+  | "created"
+  | "status_change"
+  | "note_added"
+  | "assignee_changed"
+  | "priority_changed";
+
+export interface ActivityEntry {
+  id: string;
+  jobId: string;
+  timestamp: string;
+  type: ActivityType;
+  description: string;
+  actor: string;
+  /** Set on entries written by the visitor, used to track the guided journey. */
+  byVisitor?: boolean;
+  /** For assignments and status changes: was the mission an open incident at that moment? */
+  onIncident?: boolean;
+  from?: JobStatus;
+  to?: JobStatus;
 }
 
 export interface DailyActivity {
   date: string;
   completed: number;
-  pending: number;
-  issues: number;
-}
-
-export interface ActivityTimelineEntry {
-  id: string;
-  jobId: string;
-  timestamp: string;
-  type:
-    | "status_change"
-    | "note_added"
-    | "assignee_changed"
-    | "priority_changed"
-    | "created";
-  description: string;
-  actor: string;
+  incidents: number;
 }

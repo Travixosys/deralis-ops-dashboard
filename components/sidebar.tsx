@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Briefcase, Users, Shield } from "lucide-react";
+import { LayoutDashboard, ClipboardList, Users, Shield } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/jobs", label: "Jobs", icon: Briefcase },
-  { href: "/team", label: "Team", icon: Users },
+export const NAV_ITEMS = [
+  { href: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/jobs", label: "Missions", icon: ClipboardList },
+  { href: "/team", label: "Équipe", icon: Users },
 ];
 
 export function SidebarContent() {
@@ -17,26 +17,21 @@ export function SidebarContent() {
 
   return (
     <div className="flex h-full flex-col">
-      {/* Brand */}
-      <div className="flex items-center gap-2 px-4 py-5">
+      <Link href="/" className="flex items-center gap-2 px-4 py-5">
         <div className="flex h-8 w-8 items-center justify-center rounded bg-sidebar-primary text-sidebar-primary-foreground">
           <Shield className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-sidebar-foreground">
-            Deralis Digital
-          </p>
-          <p className="text-xs text-[#94a3b8]">Ops Dashboard</p>
+          <p className="text-sm font-semibold text-sidebar-foreground">Deralis Ops</p>
+          <p className="text-xs text-[#94a3b8]">Rempart Sécurité</p>
         </div>
-      </div>
+      </Link>
 
       <Separator className="bg-sidebar-border" />
 
-      {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3 py-4">
-        {navItems.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(item.href + "/");
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}
@@ -57,12 +52,8 @@ export function SidebarContent() {
 
       <Separator className="bg-sidebar-border" />
 
-      {/* Footer */}
       <div className="px-4 py-4">
-        <p className="text-xs text-[#94a3b8]">
-          &copy; {new Date().getFullYear()} Deralis Digital
-        </p>
-        <p className="text-xs text-[#94a3b8]">Portfolio Demo</p>
+        <p className="text-xs text-[#94a3b8]">Démonstration · Deralis Digital</p>
       </div>
     </div>
   );
