@@ -8,7 +8,8 @@ import { StatusBadge } from "@/components/status-badge";
 import { PriorityBadge } from "@/components/priority-badge";
 import { MapPin, Clock, User, Building2, FileText, GitCommitHorizontal, MessageSquare, UserCog, AlertCircle, Plus } from "lucide-react";
 import type { ActivityEntry, Job, TeamMember } from "@/lib/types";
-import { assignJob, closeJob, currentJob, isFree, setStatus, useOpenJobId, useOps } from "@/lib/store";
+import { assignJob, closeJob, currentJob, isFree, setStatus, useOpenJobId, useOps, type OpsState } from "@/lib/store";
+import { SheetHint } from "@/components/guide/sheet-hint";
 import { clientById } from "@/lib/seed";
 import { AVAILABILITY_LABEL, TYPE_LABEL } from "@/lib/labels";
 import { formatRange, formatRelative } from "@/lib/utils";
@@ -37,13 +38,14 @@ export function JobDetailSheet() {
   return (
     <Sheet open={job !== null} onOpenChange={(o) => !o && closeJob()}>
       <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-lg">
-        {job && ops && <SheetBody job={job} team={ops.team} jobs={ops.jobs} activity={ops.activity} />}
+        {job && ops && <SheetBody job={job} ops={ops} />}
       </SheetContent>
     </Sheet>
   );
 }
 
-function SheetBody({ job, team, jobs, activity }: { job: Job; team: TeamMember[]; jobs: Job[]; activity: ActivityEntry[] }) {
+function SheetBody({ job, ops }: { job: Job; ops: OpsState }) {
+  const { team, jobs, activity } = ops;
   const client = clientById(job.clientId);
   const timeline = activity
     .filter((e) => e.jobId === job.id)
@@ -63,6 +65,7 @@ function SheetBody({ job, team, jobs, activity }: { job: Job; team: TeamMember[]
       </SheetHeader>
 
       <div className="space-y-5">
+        <SheetHint job={job} ops={ops} />
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm">
             <Building2 className="h-4 w-4 text-muted-foreground" />

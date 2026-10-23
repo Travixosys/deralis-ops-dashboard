@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, ClipboardList, Users, Shield } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { GuidePanel } from "@/components/guide/guide";
 import { cn } from "@/lib/utils";
 
 export const NAV_ITEMS = [
@@ -12,7 +13,7 @@ export const NAV_ITEMS = [
   { href: "/team", label: "Équipe", icon: Users },
 ];
 
-export function SidebarContent() {
+export function SidebarContent({ withGuide = false }: { withGuide?: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -29,7 +30,7 @@ export function SidebarContent() {
 
       <Separator className="bg-sidebar-border" />
 
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="space-y-1 px-3 py-4">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
@@ -50,6 +51,14 @@ export function SidebarContent() {
         })}
       </nav>
 
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        {withGuide && (
+          <div className="mx-2 rounded-lg bg-card text-card-foreground">
+            <GuidePanel />
+          </div>
+        )}
+      </div>
+
       <Separator className="bg-sidebar-border" />
 
       <div className="px-4 py-4">
@@ -62,7 +71,7 @@ export function SidebarContent() {
 export function DesktopSidebar() {
   return (
     <aside className="hidden md:flex md:w-64 md:flex-col md:border-r border-sidebar-border bg-sidebar">
-      <SidebarContent />
+      <SidebarContent withGuide />
     </aside>
   );
 }
