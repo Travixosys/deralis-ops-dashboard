@@ -18,11 +18,7 @@ function useStepAction() {
 
   return (step: GuideStep, ops: OpsState | null) => {
     if (!ops) return;
-    if (step.id === "open") {
-      router.push("/dashboard");
-      return;
-    }
-    if (step.id === "relay" || step.id === "close") {
+    if (step.id === "open" || step.id === "relay" || step.id === "close") {
       const open = ops.jobs.find((j) => j.status === "incident");
       const id = open?.id ?? simulateIncident();
       if (!onOps) router.push("/dashboard");
@@ -56,27 +52,27 @@ export function GuideSteps({ variant = "panel", onAction }: { variant?: "panel" 
         const isDone = done[step.id];
         const isNext = next?.id === step.id;
         return (
-          <li key={step.id} data-step={step.id} data-done={isDone ? "true" : "false"} className={cn("rounded-md", isNext && variant === "panel" ? "bg-muted/60 p-3" : "px-3 py-1.5")}>
+          <li key={step.id} data-step={step.id} data-done={isDone ? "true" : "false"} className={cn("rounded-md", isNext && variant === "panel" ? "bg-raised p-3 border" : "px-3 py-1.5")}>
             <div className="flex items-start gap-2.5">
               <span
                 aria-hidden
                 className={cn(
                   "mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full border text-[11px] font-semibold tabular-nums",
-                  isDone ? "border-transparent bg-foreground text-background" : isNext ? "border-foreground text-foreground" : "border-border text-muted-foreground"
+                  isDone ? "border-transparent bg-covered text-white" : isNext ? "border-ink text-ink" : "border-control text-muted-ink"
                 )}
               >
                 {isDone ? <Check className="h-3 w-3" strokeWidth={3} /> : i + 1}
               </span>
               <div className="min-w-0 flex-1">
-                <p className={cn("text-sm leading-5", isDone && "text-muted-foreground line-through decoration-1", isNext && "font-semibold")}>
+                <p className={cn("text-sm leading-5", isDone && "text-muted-ink line-through decoration-1", isNext && "font-semibold")}>
                   {step.title}
                   <span className="sr-only">{isDone ? " (fait)" : " (à faire)"}</span>
                 </p>
                 {isNext && variant === "panel" && (
                   <>
-                    <p className="mt-1 text-sm leading-5 text-muted-foreground">{step.action}</p>
+                    <p className="mt-1 text-sm leading-5 text-muted-ink">{step.action}</p>
                     <p className="mt-1.5 text-sm leading-5">
-                      <span className="font-medium">Résultat attendu : </span>
+                      <span className="font-medium">Résultat attendu : </span>
                       {step.result}
                     </p>
                     <button
@@ -85,7 +81,7 @@ export function GuideSteps({ variant = "panel", onAction }: { variant?: "panel" 
                         act(step, ops);
                         onAction?.();
                       }}
-                      className="mt-2.5 inline-flex min-h-11 items-center gap-1.5 rounded-md bg-foreground px-3 text-sm font-medium text-background hover:opacity-90 md:min-h-9"
+                      className="mt-3 inline-flex min-h-11 items-center gap-1.5 rounded-md bg-ink px-3 text-[14px] font-medium text-sheet hover:bg-ink/85 md:min-h-9"
                     >
                       {stepLabel(step, ops)}
                       <ArrowRight className="h-4 w-4" aria-hidden />
@@ -106,7 +102,7 @@ export function ResetButton() {
   const router = useRouter();
   if (!confirm) {
     return (
-      <button type="button" onClick={() => setConfirm(true)} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground md:min-h-8">
+      <button type="button" onClick={() => setConfirm(true)} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted-ink hover:text-foreground md:min-h-8">
         <RotateCcw className="h-3.5 w-3.5" aria-hidden />
         Réinitialiser la démo
       </button>
@@ -114,7 +110,7 @@ export function ResetButton() {
   }
   return (
     <div className="flex flex-wrap items-center gap-2 text-sm">
-      <span>Données et parcours remis à zéro ?</span>
+      <span>Données et parcours remis à zéro ?</span>
       <button
         type="button"
         onClick={() => {
@@ -126,7 +122,7 @@ export function ResetButton() {
       >
         Réinitialiser
       </button>
-      <button type="button" onClick={() => setConfirm(false)} className="inline-flex min-h-11 items-center px-1 text-muted-foreground md:min-h-8">
+      <button type="button" onClick={() => setConfirm(false)} className="inline-flex min-h-11 items-center px-1 text-muted-ink md:min-h-8">
         Annuler
       </button>
     </div>
@@ -145,10 +141,10 @@ function DemoActions() {
           if (!pathname.startsWith("/jobs")) router.push("/jobs");
           openJob(id);
         }}
-        className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium hover:underline md:min-h-8"
+        className="inline-flex min-h-11 items-center gap-1.5 text-left text-sm font-medium hover:underline md:min-h-8"
       >
         <Plus className="h-3.5 w-3.5" aria-hidden />
-        Recevoir une demande client
+        Recevoir une demande
       </button>
       <button
         type="button"
@@ -158,10 +154,10 @@ function DemoActions() {
             if (!OPS_ROUTES.some((r) => pathname.startsWith(r))) router.push("/dashboard");
           }
         }}
-        className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium hover:underline md:min-h-8"
+        className="inline-flex min-h-11 items-center gap-1.5 text-left text-sm font-medium hover:underline md:min-h-8"
       >
         <AlertTriangle className="h-3.5 w-3.5" aria-hidden />
-        Simuler un incident sur le terrain
+        Simuler un incident
       </button>
     </div>
   );
@@ -170,14 +166,14 @@ function DemoActions() {
 export function AboutDemo() {
   return (
     <details className="group text-sm">
-      <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-1.5 font-medium text-muted-foreground hover:text-foreground md:min-h-8">
+      <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-1.5 font-medium text-muted-ink hover:text-foreground md:min-h-8">
         <Info className="h-3.5 w-3.5" aria-hidden />
         À propos de cette démo
       </summary>
-      <div className="mt-1 space-y-1.5 leading-5 text-muted-foreground">
+      <div className="mt-1 space-y-1.5 leading-5 text-muted-ink">
         <p>Rempart Sécurité, ses clients, ses agents et ses sites sont fictifs. Les horaires sont calculés à partir de l&apos;heure de votre visite.</p>
         <p>Les données restent dans ce navigateur. Aucun appel, SMS ou message n&apos;est envoyé aux agents ni aux clients.</p>
-        <p>Les étapes se valident d&apos;elles-mêmes quand l&apos;action est faite. « Réinitialiser la démo » remet les données et le parcours à zéro.</p>
+        <p>Les étapes se valident d&apos;elles-mêmes quand l&apos;action est faite. « Réinitialiser la démo » remet les données et le parcours à zéro.</p>
       </div>
     </details>
   );
@@ -185,16 +181,16 @@ export function AboutDemo() {
 
 function Progress({ count, total }: { count: number; total: number }) {
   return (
-    <div className="h-1 w-full overflow-hidden rounded-full bg-border" aria-hidden>
-      <div className="h-full rounded-full bg-foreground transition-[width] duration-300 ease-out" style={{ width: `${(count / total) * 100}%` }} />
+    <div className="h-1 w-full overflow-hidden rounded-full bg-frame-2" aria-hidden>
+      <div className="h-full rounded-full bg-covered transition-[width] duration-300 ease-out" style={{ width: `${(count / total) * 100}%` }} />
     </div>
   );
 }
 
 function Finished() {
   return (
-    <p className="rounded-md bg-muted/60 p-3 text-sm leading-5">
-      <span className="font-semibold">Parcours terminé.</span> L&apos;incident est clôturé et la nouvelle demande a son agent. Continuez librement ou réinitialisez pour recommencer.
+    <p className="rounded-md bg-covered-tint p-3 text-sm leading-5 text-covered-ink">
+      <span className="font-semibold">Parcours terminé.</span>{" "}L&apos;incident est clôturé et la nouvelle demande a son agent. Continuez librement ou réinitialisez pour recommencer.
     </p>
   );
 }
@@ -207,20 +203,20 @@ export function GuidePanel() {
   const { count, total, next } = progress(ops);
 
   return (
-    <section aria-labelledby="guide-title" className="px-3 py-3" data-testid="guide-panel">
+    <section aria-labelledby="guide-title" className="rounded-[10px] bg-sheet px-2 py-3 border" data-testid="guide-panel">
       <div className="flex items-center justify-between gap-2 px-1">
         <h2 id="guide-title" className="text-sm font-semibold">
           Parcours guidé
         </h2>
         <div className="flex items-center gap-2">
-          <span className="text-xs tabular-nums text-muted-foreground" data-testid="guide-count">
+          <span className="text-xs tabular-nums text-muted-ink" data-testid="guide-count">
             {ops ? count : 0}/{total}
           </span>
           <button
             type="button"
             onClick={() => setGuideOpen(!expanded)}
             aria-expanded={expanded}
-            className="rounded p-1 text-muted-foreground hover:text-foreground"
+            className="rounded p-1 text-muted-ink hover:text-foreground"
           >
             {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
             <span className="sr-only">{expanded ? "Masquer le parcours" : "Afficher le parcours"}</span>
@@ -234,7 +230,7 @@ export function GuidePanel() {
         <div className="mt-3 space-y-3">
           {!next && ops && <Finished />}
           <GuideSteps />
-          <div className="space-y-1 border-t pt-2">
+          <div className="mx-1 border-t px-2 pt-2">
             <DemoActions />
             <ResetButton />
             <AboutDemo />
@@ -253,7 +249,7 @@ export function GuideBar() {
   const { count, total, next } = progress(ops);
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-card shadow-[0_-4px_16px_rgba(0,0,0,0.06)] md:hidden" data-testid="guide-bar">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-sheet shadow-[0_-6px_20px_rgba(19,24,22,0.08)] md:hidden" data-testid="guide-bar">
       <button
         type="button"
         onClick={() => setGuideOpen(!expanded)}
@@ -261,10 +257,10 @@ export function GuideBar() {
         className="flex min-h-14 w-full items-center gap-3 px-4 text-left"
       >
         <span className="text-sm font-semibold">Parcours guidé</span>
-        <span className="text-sm tabular-nums text-muted-foreground">
+        <span className="text-sm tabular-nums text-muted-ink">
           {ops ? count : 0}/{total}
         </span>
-        <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">{next ? next.title : "Terminé"}</span>
+        <span className="min-w-0 flex-1 truncate text-sm text-muted-ink">{next ? next.title : "Terminé"}</span>
         {expanded ? <ChevronDown className="h-5 w-5 flex-none" /> : <ChevronUp className="h-5 w-5 flex-none" />}
         <span className="sr-only">{expanded ? "Masquer le parcours" : "Afficher le parcours"}</span>
       </button>
@@ -275,7 +271,7 @@ export function GuideBar() {
         <div className="max-h-[65svh] space-y-3 overflow-y-auto px-2 pb-4 pt-3">
           {!next && ops && <Finished />}
           <GuideSteps onAction={() => setGuideOpen(false)} />
-          <div className="space-y-1 border-t px-2 pt-2">
+          <div className="border-t px-2 pt-2">
             <DemoActions />
             <ResetButton />
             <AboutDemo />

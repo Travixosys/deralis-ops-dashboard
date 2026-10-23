@@ -11,10 +11,10 @@ export function SheetHint({ job, ops }: { job: Job; ops: OpsState }) {
   const index = next ? STEPS.findIndex((s) => s.id === next.id) + 1 : 0;
 
   let text: string | null = null;
-  if (next?.id === "relay" && job.status === "incident") text = "Dans « Agent affecté », choisissez un agent marqué Libre pour prendre le relais.";
-  if (next?.id === "close" && job.status === "incident") text = "Le site est sécurisé : clôturez l'incident.";
+  if (next?.id === "relay" && job.status === "incident") text = "Dans « Agent affecté », choisissez un agent marqué Libre pour prendre le relais.";
+  if (next?.id === "close" && job.status === "incident") text = "Le site est sécurisé : clôturez l'incident.";
   if (next?.id === "open" && job.status === "incident") text = null;
-  if (next?.id === "assign" && job.simulated && !job.assigneeId) text = "Choisissez un agent Libre dans « Agent affecté ».";
+  if (next?.id === "assign" && job.simulated && !job.assigneeId) text = "Choisissez un agent Libre dans « Agent affecté ».";
 
   const justDone =
     (job.status === "completed" && done.close && job.simulated !== true && ops.activity.some((a) => a.jobId === job.id && a.byVisitor && a.from === "incident")) ||
@@ -35,7 +35,7 @@ export function SheetHint({ job, ops }: { job: Job; ops: OpsState }) {
         <p className="flex items-center gap-2">
           <Check className="h-4 w-4 flex-none" aria-hidden />
           <span>
-            <span className="font-semibold">Étape validée.</span> {count}/{total} faites.{next ? ` Suivante : ${next.title.toLowerCase()}.` : " Parcours terminé."}
+            <span className="font-semibold">Étape validée.</span> {count}/{total} faites.{next ? ` Suivante : ${next.title.toLowerCase()}.` : " Parcours terminé."}
           </span>
         </p>
       )}

@@ -16,7 +16,7 @@ export function ExploreButton({ className }: { className?: string }) {
     >
       <span className="flex flex-col leading-tight">
         <span className="text-[17px] font-semibold">Explorer la démonstration</span>
-        <span className="mt-0.5 text-sm opacity-80">Parcours guidé en 4 étapes, environ 3 minutes</span>
+        <span className="mt-0.5 text-sm opacity-80">Parcours guidé, 4 étapes, 3 minutes</span>
       </span>
       <ArrowRight className="h-5 w-5 flex-none transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
     </Link>

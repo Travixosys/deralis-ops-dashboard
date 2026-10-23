@@ -55,7 +55,7 @@ type JobSeed = {
 
 const JOB_SEEDS: JobSeed[] = [
   // Planifiées
-  { id: "job-001", client: "client-001", type: "patrol", assignee: "tm-001", status: "pending", location: "Tour Méridienne, hall et parking niveau -2", start: 3, end: 7, priority: "medium", notes: "Ronde du soir : hall, parkings -1 et -2, accès toiture.", created: -30 },
+  { id: "job-001", client: "client-001", type: "patrol", assignee: "tm-001", status: "pending", location: "Tour Méridienne, hall et parking niveau -2", start: 3, end: 7, priority: "medium", notes: "Ronde du soir : hall, parkings -1 et -2, accès toiture.", created: -30 },
   { id: "job-002", client: "client-002", type: "access", assignee: "tm-002", status: "pending", location: "Campus Solaris, bâtiment C, aile laboratoires", start: 17, end: 25, priority: "high", notes: "Vérification des lecteurs biométriques de la nouvelle aile. Tests de badges avec le service informatique.", created: -28 },
   { id: "job-003", client: "client-003", type: "post", assignee: "tm-005", status: "pending", location: "Entrepôt Crestline 7, portail principal", start: 16, end: 28, priority: "medium", notes: "Poste de 12 h au portail. Contrôle des bons de livraison avec le planning de quai.", created: -26 },
   { id: "job-004", client: "client-004", type: "escort", assignee: "tm-004", status: "pending", location: "Clinique du Port, aile est, couloir pharmacie", start: 5, end: 6.5, priority: "high", notes: "Escorte d'une livraison de médicaments du quai à la réserve sécurisée. Double signature exigée.", created: -9 },
@@ -65,7 +65,7 @@ const JOB_SEEDS: JobSeed[] = [
   { id: "job-014", client: "client-002", type: "access", assignee: "tm-007", status: "pending", location: "Campus Solaris, bâtiment A, salle serveurs", start: 20, end: 28, priority: "critical", notes: "Contrôle d'accès renforcé pendant la migration des serveurs. Chaque entrée et sortie consignée.", created: -22 },
 
   // En cours
-  { id: "job-007", client: "client-002", type: "post", assignee: "tm-005", status: "in_progress", location: "Campus Solaris, accueil principal", start: -6, end: 4, priority: "medium", notes: "Poste d'accueil : badges visiteurs et registre des véhicules.", created: -50 },
+  { id: "job-007", client: "client-002", type: "post", assignee: "tm-005", status: "in_progress", location: "Campus Solaris, accueil principal", start: -6, end: 4, priority: "medium", notes: "Poste d'accueil : badges visiteurs et registre des véhicules.", created: -50 },
   { id: "job-009", client: "client-004", type: "access", assignee: "tm-002", status: "in_progress", location: "Clinique du Port, aile nord, entrée du personnel", start: -5, end: 5, priority: "medium", notes: "Vérification des badges du personnel. Vigilance sur les entrées en talonnage.", created: -30 },
   { id: "job-011", client: "client-003", type: "post", assignee: "tm-008", status: "in_progress", location: "Crestline, centre de distribution, PC vidéo", start: -4, end: 4, priority: "high", notes: "Surveillance des caméras et coordination des rondes. Toute anomalie consignée immédiatement.", created: -48 },
   { id: "job-013", client: "client-004", type: "alarm", assignee: "tm-003", status: "in_progress", location: "Clinique du Port, aile sud, urgences", start: -3, end: 5, priority: "high", notes: "Couverture levée de doute du service des urgences. Intervention prioritaire.", created: -27 },
@@ -83,7 +83,7 @@ const JOB_SEEDS: JobSeed[] = [
   { id: "job-019", client: "client-005", type: "access", assignee: "tm-002", status: "completed", location: "Siège Atlas, salle informatique", start: -55, end: -46, priority: "high", notes: "Audit des accès de la salle informatique. 2 badges expirés désactivés.", created: -100 },
   { id: "job-020", client: "client-001", type: "post", assignee: "tm-008", status: "completed", location: "Tour Méridienne, parking niveau -1", start: -45, end: -33, priority: "low", notes: "Surveillance de nuit du parking. Aucun incident, comptage des véhicules rapproché en fin de poste.", created: -96 },
   { id: "job-021", client: "client-003", type: "patrol", assignee: "tm-006", status: "completed", location: "Crestline, centre de distribution, site complet", start: -43, end: -35, priority: "medium", notes: "Ronde de nuit terminée. Éclairage défaillant en zone D, ticket de maintenance ouvert.", created: -98 },
-  { id: "job-022", client: "client-002", type: "alarm", assignee: "tm-003", status: "completed", location: "Campus Solaris, bâtiment A, laboratoire", start: -40, end: -38.5, priority: "critical", notes: "Alarme intrusion au laboratoire. Agent sur place en 4 min. Cause : chercheur sorti sans badger. Levée de doute négative.", created: -40 },
+  { id: "job-022", client: "client-002", type: "alarm", assignee: "tm-003", status: "completed", location: "Campus Solaris, bâtiment A, laboratoire", start: -40, end: -38.5, priority: "critical", notes: "Alarme intrusion au laboratoire. Agent sur place en 4 min. Cause : chercheur sorti sans badger. Levée de doute négative.", created: -40 },
   { id: "job-023", client: "client-004", type: "escort", assignee: "tm-004", status: "completed", location: "Clinique du Port, aile ouest, maternité", start: -27, end: -25.5, priority: "low", notes: "Accompagnement d'un transfert de patiente vers la sortie. Sans incident.", created: -50 },
 ];
 
@@ -137,7 +137,7 @@ export function createSeed(nowMs: number = Date.now()): SeedState {
   for (const s of JOB_SEEDS) {
     const job = jobs.find((j) => j.id === s.id)!;
     const who = memberName(s.assignee);
-    push({ jobId: s.id, timestamp: at(nowMs, s.created), type: "created", description: `Mission créée : ${TYPE_LABEL[s.type].toLowerCase()}, ${s.location}`, actor: "Système" });
+    push({ jobId: s.id, timestamp: at(nowMs, s.created), type: "created", description: `Mission créée : ${TYPE_LABEL[s.type].toLowerCase()}, ${s.location}`, actor: "Système" });
     push({ jobId: s.id, timestamp: at(nowMs, s.created + 0.5), type: "assignee_changed", description: `Affectée à ${who}`, actor: SUPERVISOR });
     if (s.status === "in_progress" || s.status === "completed" || s.status === "incident") {
       push({ jobId: s.id, timestamp: job.scheduledStart, type: "status_change", description: `${STATUS_LABEL.pending} → ${STATUS_LABEL.in_progress}`, actor: who, from: "pending", to: "in_progress" });
@@ -183,9 +183,9 @@ export const REQUEST_TEMPLATES: {
   priority: Priority;
   notes: string;
 }[] = [
-  { client: "client-003", type: "alarm", location: "Entrepôt Crestline 5, porte est", inHours: 0.75, duration: 2, priority: "high", notes: "Demande du client : alarme intrusion déclenchée à la porte est, levée de doute demandée dès que possible." },
-  { client: "client-005", type: "escort", location: "Siège Atlas, parking visiteurs", inHours: 2, duration: 1.5, priority: "medium", notes: "Demande du client : accompagnement d'un transport de documents confidentiels jusqu'au coffre." },
-  { client: "client-002", type: "post", location: "Campus Solaris, bâtiment D, accueil", inHours: 18, duration: 8, priority: "medium", notes: "Demande du client : renfort à l'accueil pour un audit réglementaire d'une journée." },
+  { client: "client-003", type: "alarm", location: "Entrepôt Crestline 5, porte est", inHours: 0.75, duration: 2, priority: "high", notes: "Demande du client : alarme intrusion déclenchée à la porte est, levée de doute demandée dès que possible." },
+  { client: "client-005", type: "escort", location: "Siège Atlas, parking visiteurs", inHours: 2, duration: 1.5, priority: "medium", notes: "Demande du client : accompagnement d'un transport de documents confidentiels jusqu'au coffre." },
+  { client: "client-002", type: "post", location: "Campus Solaris, bâtiment D, accueil", inHours: 18, duration: 8, priority: "medium", notes: "Demande du client : renfort à l'accueil pour un audit réglementaire d'une journée." },
 ];
 
 /** What an agent reports when the visitor simulates an incident, by mission type. */

@@ -155,7 +155,7 @@ export function assignJob(jobId: string, memberId: string) {
   if (!job || job.assigneeId === memberId) return;
   const before = job.assigneeId ? memberName(job.assigneeId) : "";
   const description = before
-    ? `Relais : ${before} → ${memberName(memberId)}`
+    ? `Relais : ${before} → ${memberName(memberId)}`
     : `Affectée à ${memberName(memberId)}`;
   commit({
     ...s,
