@@ -42,7 +42,13 @@ function HookRow({ member, index, jobs, interactive }: { member: TeamMember; ind
 
   const content = (
     <>
-      <span aria-hidden className={cn("h-2 w-2 flex-none rounded-full border", job ? "border-ink bg-ink" : "border-control bg-sheet")} />
+      <span
+        aria-hidden
+        className={cn(
+          "h-2 w-2 flex-none rounded-full border",
+          job ? (job.status === "incident" ? "border-negative bg-negative" : "border-running bg-running") : off ? "border-control bg-sheet" : "border-covered bg-covered"
+        )}
+      />
       <Initials initials={member.initials} index={index} className={cn(off && "opacity-60")} />
       <span className="min-w-0 flex-1">
         <span className={cn("block truncate text-[14px] font-medium leading-5", off && "text-muted-ink")}>{member.name}</span>

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 // One status mark per row: a pale pill with dark text of the same hue, colour only where it means something.
 const statusStyles: Record<JobStatus, string> = {
   incident: "bg-negative-tint text-negative-ink",
-  in_progress: "bg-covered-tint text-covered-ink",
+  in_progress: "bg-running-tint text-running",
   pending: "bg-raised text-ink border",
   completed: "text-muted-ink",
 };

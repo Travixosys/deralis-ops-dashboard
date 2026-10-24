@@ -29,11 +29,11 @@ export function SidebarContent({ withGuide = false, onNavigate }: { withGuide?: 
 
   return (
     <div className="flex h-full flex-col">
-      <Link href="/" onClick={onNavigate} className="mx-3 mt-4 flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-frame-2/60">
+      <Link href="/" onClick={onNavigate} className="mx-3 mt-4 flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-rail-2">
         <Mark size={30} />
         <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-[-0.01em]">Deralis Ops</span>
-          <span className="block text-[13px] text-muted-ink">Rempart Sécurité</span>
+          <span className="block text-[15px] font-semibold tracking-[-0.01em] text-rail-ink">Deralis Ops</span>
+          <span className="block text-[13px] text-rail-muted">Rempart Sécurité</span>
         </span>
       </Link>
 
@@ -49,7 +49,9 @@ export function SidebarContent({ withGuide = false, onNavigate }: { withGuide?: 
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex min-h-11 items-center gap-2.5 rounded-lg px-2.5 text-[14px] transition-colors md:min-h-9",
-                isActive ? "bg-sheet font-medium text-ink border" : "text-muted-ink hover:bg-frame-2/60 hover:text-ink"
+                isActive
+                  ? "bg-rail-2 font-medium text-rail-ink shadow-[inset_3px_0_0_var(--signal)]"
+                  : "text-rail-muted hover:bg-rail-2/70 hover:text-rail-ink"
               )}
             >
               <item.icon className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -58,7 +60,7 @@ export function SidebarContent({ withGuide = false, onNavigate }: { withGuide?: 
                 <span
                   className={cn(
                     "num inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[12px] font-semibold",
-                    toTreat.incidents > 0 ? "bg-negative text-white" : "bg-ink text-sheet"
+                    toTreat.incidents > 0 ? "bg-negative text-white" : "bg-waiting text-ink"
                   )}
                   aria-label={`${toTreat.count} à traiter`}
                 >
@@ -72,8 +74,8 @@ export function SidebarContent({ withGuide = false, onNavigate }: { withGuide?: 
 
       <div className="mt-5 min-h-0 flex-1 overflow-y-auto px-3 pb-3">{withGuide && <GuidePanel />}</div>
 
-      <div className="px-5 pb-4 pt-2 text-[12px] text-muted-ink">
-        <a href="https://deralis.digital" rel="noopener" className="hover:text-ink">
+      <div className="px-5 pb-4 pt-2 text-[12px] text-rail-muted">
+        <a href="https://deralis.digital" rel="noopener" className="hover:text-rail-ink">
           Démonstration · Deralis Digital
         </a>
       </div>

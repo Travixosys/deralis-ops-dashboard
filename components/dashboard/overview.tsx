@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { Inbox, ShieldCheck, Siren, UserCheck, type LucideIcon } from "lucide-react";
+import { CompletedChart } from "@/components/dashboard/completed-chart";
 import { KeyTag } from "@/components/ops/key-tag";
 import { KeyBoard, boardSummary } from "@/components/ops/key-board";
 import { PageTitle, Panel, Skeleton } from "@/components/ops/ui";
@@ -41,31 +43,41 @@ function StatusStrip({ ops }: { ops: OpsState }) {
   const waiting = ops.jobs.filter((j) => j.status !== "completed" && !j.assigneeId).length;
   const running = ops.jobs.filter((j) => j.status === "in_progress").length;
   const { onDuty, free } = boardSummary(ops);
-  const cells = [
-    { label: "Incidents ouverts", value: String(incidents), unit: "", alert: incidents > 0, testId: "kpi-incidents" },
-    { label: "Demandes à affecter", value: String(waiting), unit: "", alert: false, testId: "kpi-waiting" },
-    { label: "Missions en cours", value: String(running), unit: "", alert: false, testId: "kpi-running" },
-    { label: "Agents libres", value: String(free), unit: ` / ${onDuty} en service`, alert: false, testId: "kpi-free" },
+  // Each figure wears its state's colour as an accent (top edge and icon), never as a full fill; only an open
+  // incident warms its whole card, because that is the one thing that needs a decision now.
+  const cells: { label: string; value: string; unit: string; hint: string; icon: LucideIcon; tone: string; alert: boolean; testId: string }[] = [
+    { label: "Incidents ouverts", value: String(incidents), unit: "", hint: incidents > 0 ? "À traiter en priorité" : "Aucun signalement", icon: Siren, tone: "var(--negative)", alert: incidents > 0, testId: "kpi-incidents" },
+    { label: "Demandes à affecter", value: String(waiting), unit: "", hint: waiting > 0 ? "En attente d'un agent" : "Toutes affectées", icon: Inbox, tone: "var(--waiting)", alert: false, testId: "kpi-waiting" },
+    { label: "Missions en cours", value: String(running), unit: "", hint: "Agents sur site", icon: ShieldCheck, tone: "var(--running)", alert: false, testId: "kpi-running" },
+    { label: "Agents libres", value: String(free), unit: ` / ${onDuty} en service`, hint: free > 0 ? "Disponibles pour intervenir" : "Personne de libre", icon: UserCheck, tone: "var(--covered)", alert: false, testId: "kpi-free" },
   ];
   return (
-    <dl className="grid grid-cols-2 overflow-hidden rounded-[10px] border lg:grid-cols-4">
-      {cells.map((c, i) => (
+    <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+      {cells.map((c) => (
         <div
           key={c.label}
           className={cn(
-            "px-4 py-3.5",
-            i % 2 === 1 && "border-l",
-            i >= 2 && "border-t lg:border-t-0",
-            i === 2 && "lg:border-l",
-            c.alert && "bg-negative-tint"
+            "relative overflow-hidden rounded-[12px] border bg-sheet px-4 pb-3.5 pt-4 shadow-[0_1px_2px_rgba(17,26,43,0.06),0_4px_14px_-6px_rgba(17,26,43,0.10)]",
+            c.alert && "border-negative/30 bg-negative-tint"
           )}
+          style={{ boxShadow: `inset 0 3px 0 ${c.tone}, 0 1px 2px rgba(17,26,43,0.06), 0 4px 14px -6px rgba(17,26,43,0.10)` }}
           data-testid={c.testId}
         >
-          <dt className={cn("text-[13px]", c.alert ? "text-negative-ink" : "text-muted-ink")}>{c.label}</dt>
-          <dd className="mt-1 flex items-baseline">
-            <span className={cn("num text-[28px] font-semibold leading-8 tracking-[-0.02em]", c.alert && "text-negative-ink")}>{c.value}</span>
+          <div className="flex items-start justify-between gap-2">
+            <dt className={cn("text-[13px] font-medium", c.alert ? "text-negative-ink" : "text-muted-ink")}>{c.label}</dt>
+            <span
+              aria-hidden
+              className="flex h-8 w-8 flex-none items-center justify-center rounded-lg"
+              style={{ background: `color-mix(in srgb, ${c.tone} 14%, white)`, color: c.tone }}
+            >
+              <c.icon className="h-[18px] w-[18px]" strokeWidth={2} />
+            </span>
+          </div>
+          <dd className="-mt-1 flex items-baseline">
+            <span className={cn("num text-[30px] font-bold leading-9 tracking-[-0.02em]", c.alert && "text-negative-ink")}>{c.value}</span>
             {c.unit && <span className="num ml-1 text-[13px] text-muted-ink">{c.unit}</span>}
           </dd>
+          <dd className={cn("mt-0.5 text-[12.5px]", c.alert ? "font-medium text-negative-ink" : "text-muted-ink")}>{c.hint}</dd>
         </div>
       ))}
     </dl>
@@ -76,7 +88,10 @@ function QueueRow({ job, ops, now }: { job: Job; ops: OpsState; now: number }) {
   const incident = job.status === "incident";
   const since = incident ? ops.activity.filter((a) => a.jobId === job.id && a.to === "incident").at(-1)?.timestamp : job.createdAt;
   return (
-    <li className="flex flex-col gap-3 border-t px-4 py-3.5 sm:flex-row sm:items-center">
+    <li
+      className={cn("flex flex-col gap-3 border-t px-4 py-3.5 sm:flex-row sm:items-center", incident ? "bg-negative-tint/60" : "bg-waiting-tint/60")}
+      style={{ boxShadow: `inset 3px 0 0 ${incident ? "var(--negative)" : "var(--waiting)"}` }}
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <KeyTag clientId={job.clientId} className="mt-0.5" />
         <div className="min-w-0">
@@ -135,7 +150,7 @@ function ShiftBar({ job, now }: { job: Job; now: number }) {
   return (
     <div className="w-full">
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-raised border border-rule" aria-hidden>
-        <div className={cn("h-full rounded-full", job.status === "incident" ? "bg-negative" : "bg-covered")} style={{ width: `${ratio * 100}%` }} />
+        <div className={cn("h-full rounded-full", job.status === "incident" ? "bg-negative" : "bg-running")} style={{ width: `${ratio * 100}%` }} />
       </div>
       <div className="num mt-1 flex justify-between text-[12px] text-muted-ink">
         <span>{formatTime(job.scheduledStart)}</span>
@@ -156,7 +171,7 @@ function LiveMissions({ ops, now }: { ops: OpsState; now: number }) {
       ) : (
         <ul>
           {live.map((job) => (
-            <li key={job.id} className="border-t">
+            <li key={job.id} className="border-t" style={{ boxShadow: `inset 3px 0 0 ${job.status === "incident" ? "var(--negative)" : "var(--running)"}` }}>
               <button
                 type="button"
                 onClick={() => openJob(job.id)}
@@ -264,6 +279,9 @@ export function Overview() {
           <Panel title="Tableau des agents" meta={<span className="num">{free} libres · {onDuty} en service</span>} className="lg:sticky lg:top-0">
             <KeyBoard ops={ops} />
           </Panel>
+        </div>
+        <div className="lg:col-span-8">
+          <CompletedChart ops={ops} />
         </div>
         <div className="lg:col-span-8">
           <LiveMissions ops={ops} now={now} />

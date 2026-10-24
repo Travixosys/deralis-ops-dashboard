@@ -29,7 +29,7 @@ export default function StartPage() {
             Le tableau d&apos;exploitation des sociétés de sécurité privée : missions du jour, agents disponibles et incidents à traiter sur un seul écran. Vous
             repérez l&apos;urgence, vous passez le relais à l&apos;agent libre, vous clôturez.
           </p>
-          <ExploreButton className="mt-7 min-h-16 w-full rounded-lg bg-ink px-5 text-sheet transition-colors hover:bg-ink/85 sm:w-[380px]" />
+          <ExploreButton className="mt-7 min-h-16 w-full rounded-lg bg-rail px-5 text-rail-ink shadow-[inset_0_-3px_0_var(--signal)] transition-colors hover:bg-rail-2 sm:w-[380px]" />
 
           <section aria-labelledby="journey-title" className="mt-10 max-w-[440px]">
             <h2 id="journey-title" className="text-[15px] font-semibold">

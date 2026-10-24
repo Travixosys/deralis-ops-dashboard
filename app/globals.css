@@ -3,9 +3,10 @@
 
 /*
  * Deralis Ops: the key board of the guard post.
- * A painted-steel frame (green-grey) holds the navigation; the work sits on a white sheet.
- * Colour carries meaning only: safety green for covered missions, signal red for incidents,
- * amber for a request waiting for an agent, and pale key-tag tints as each client's identity.
+ * A navy rail holds the navigation and frames the work; white panels sit on a pale page.
+ * Each state has its colour and shows it as an accent, never a full fill: signal red for incidents,
+ * amber for a request waiting for an agent, blue for a mission on site, green for a free agent.
+ * Signal orange is the product's own mark: the brand, today, the current item.
  */
 
 @theme inline {
@@ -46,6 +47,16 @@
   --color-waiting-tint: var(--waiting-tint);
   --color-waiting-line: var(--waiting-line);
   --color-waiting-ink: var(--waiting-ink);
+  --color-waiting: var(--waiting);
+  --color-running: var(--running);
+  --color-running-tint: var(--running-tint);
+  --color-signal: var(--signal);
+  --color-signal-tint: var(--signal-tint);
+  --color-rail: var(--rail);
+  --color-rail-2: var(--rail-2);
+  --color-rail-ink: var(--rail-ink);
+  --color-rail-muted: var(--rail-muted);
+  --color-page: var(--page);
 
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -58,8 +69,8 @@
 
 :root {
   /* Painted-steel frame and the white working sheet */
-  --frame: #e9ede8;
-  --frame-2: #dfe4de;
+  --frame: #eef1f6;
+  --frame-2: #e2e7ef;
   --sheet: #ffffff;
   --raised: #f4f6f3;
   --ink: #131816;
@@ -78,6 +89,19 @@
   --waiting-tint: #fff8e6;
   --waiting-line: #f2d27a;
   --waiting-ink: #7a4508;
+  --waiting: #e0a100;
+  /* A mission on site, and the product's own signal orange (brand, today, the current item) */
+  --running: #2f64c8;
+  --running-tint: #e8effb;
+  --signal: #e8590c;
+  --signal-tint: #fdeee4;
+
+  /* The guard post at night: the navy rail that holds navigation, and the pale page the work sits on */
+  --rail: #111a2b;
+  --rail-2: #1c2840;
+  --rail-ink: #eef2f8;
+  --rail-muted: #9aa7bd;
+  --page: #f2f4f8;
 
   /* Key-tag tints, one per client site */
   --tag-mer: #f4e19c;

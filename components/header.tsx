@@ -20,22 +20,22 @@ export function Header() {
   const title = pageTitles[pathname] ?? "Tableau de bord";
 
   return (
-    <header className="flex h-14 flex-none items-center gap-2 bg-frame px-2 md:hidden">
+    <header className="flex h-14 flex-none items-center gap-2 bg-rail px-2 text-rail-ink md:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <button type="button" className="flex h-11 w-11 items-center justify-center rounded-lg text-ink hover:bg-frame-2">
+          <button type="button" className="flex h-11 w-11 items-center justify-center rounded-lg text-rail-ink hover:bg-rail-2">
             <Menu className="h-5 w-5" aria-hidden />
             <span className="sr-only">Ouvrir le menu</span>
           </button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-[280px] border-r-0 bg-frame p-0">
+        <SheetContent side="left" className="w-[280px] border-r-0 bg-rail p-0">
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SidebarContent onNavigate={() => setOpen(false)} />
         </SheetContent>
       </Sheet>
       <Mark size={24} />
       <p className="text-[15px] font-semibold">
-        Deralis Ops <span className="font-normal text-muted-ink">· {title}</span>
+        Deralis Ops <span className="font-normal text-rail-muted">· {title}</span>
       </p>
     </header>
   );

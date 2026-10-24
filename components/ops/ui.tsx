@@ -13,7 +13,7 @@ export function PageTitle({ title, sub, right }: { title: string; sub?: React.Re
   );
 }
 
-/** A block on the sheet: 1px edge, no shadow, its title and an optional meta line on the right. */
+/** A white panel on the page: 1px edge and a soft shadow, its title and an optional meta line on the right. */
 export function Panel({
   title,
   meta,
@@ -31,7 +31,7 @@ export function Panel({
 }) {
   const headingId = id ?? `panel-${title.toLowerCase().replace(/[^a-zà-ÿ]+/g, "-")}`;
   return (
-    <section aria-labelledby={headingId} className={cn("rounded-[10px] bg-sheet border", className)} data-testid={testId}>
+    <section aria-labelledby={headingId} className={cn("rounded-[12px] border bg-sheet shadow-[0_1px_2px_rgba(17,26,43,0.06),0_4px_14px_-6px_rgba(17,26,43,0.10)]", className)} data-testid={testId}>
       <div className="flex min-h-12 items-center justify-between gap-3 px-4 pt-1">
         <h2 id={headingId} className="text-[15px] font-semibold">
           {title}
